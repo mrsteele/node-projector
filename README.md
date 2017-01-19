@@ -15,7 +15,7 @@ Currently there is no setup, but eventually we will add env variable support.
 To run, type `npm run start` and navigate to the following to access the systems:
 
 * **http://localhost:3000/** - The client.
-* **http://localhost:3000/cmd - The command client.
+* **http://localhost:3000/cmd** - The command client.
 
 ### License
 
