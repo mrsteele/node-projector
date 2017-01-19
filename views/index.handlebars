@@ -1,0 +1,27 @@
+<style>
+  #wrapper {
+    position: relative;
+    height: 100%;
+  }
+
+  #cmd {
+    font-size: 2em;
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+</style>
+
+<div id="wrapper">
+  <div id="cmd"></div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  socket.on('cmd', function (msg) {
+    cmd.innerHTML = msg;
+  });
+</script>

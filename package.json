@@ -1,0 +1,38 @@
+{
+  "name": "node-projector",
+  "version": "0.0.0",
+  "description": "Projecting with a node app",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "standard",
+    "start:prod": "node src/index",
+    "start": "nodemon src/index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrsteele/node-projector.git"
+  },
+  "keywords": [
+    "node",
+    "project",
+    "projection",
+    "projector"
+  ],
+  "author": "Matt Steele <matt@omnionline.us> (http://omnionline.us/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mrsteele/node-projector/issues"
+  },
+  "homepage": "https://github.com/mrsteele/node-projector#readme",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "socket.io": "^1.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0",
+    "standard": "^8.6.0"
+  }
+}

@@ -1,0 +1,38 @@
+<style>
+  html, body {
+    width: 100%;
+  }
+
+  #cmdForm {
+    text-align: right;
+    padding: 5px;
+    font-size: 2em;
+  }
+
+  #cmdForm textarea {
+    height: 200px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: inherit;
+  }
+
+  #cmdForm button {
+    font-size: inherit;
+  }
+</style>
+
+<form id="cmdForm">
+  <textarea id="cmd"></textarea><br />
+  <button>Send</button>
+</form>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  cmdForm.onsubmit = function (e) {
+    e.preventDefault();
+    socket.emit('cmd', cmd.value);
+    cmd.value = '';
+    return false;
+  };
+</script>
