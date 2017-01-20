@@ -8,10 +8,56 @@
   <meta name="description" content="{{meta.description}}">
   <meta name="author" content="{{meta.author}}">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,800' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
 
   <style>
     html, body {
       height: 100%;
+    }
+
+    body {
+      background: linear-gradient(253deg, #0cc898, #1797d2, #864fe1);
+      background-size: 300% 300%;
+      -webkit-animation: Background 25s ease infinite;
+      -moz-animation: Background 25s ease infinite;
+      animation: Background 25s ease infinite;
+    }
+
+    @-webkit-keyframes Background {
+      0% {
+        background-position: 0% 50%
+      }
+      50% {
+        background-position: 100% 50%
+      }
+      100% {
+        background-position: 0% 50%
+      }
+    }
+
+    @-moz-keyframes Background {
+      0% {
+        background-position: 0% 50%
+      }
+      50% {
+        background-position: 100% 50%
+      }
+      100% {
+        background-position: 0% 50%
+      }
+    }
+
+    @keyframes Background {
+      0% {
+        background-position: 0% 50%
+      }
+      50% {
+        background-position: 100% 50%
+      }
+      100% {
+        background-position: 0% 50%
+      }
     }
   </style>
   <!--[if lt IE 9]>
