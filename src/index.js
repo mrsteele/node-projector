@@ -46,6 +46,7 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     connectionCount--
+    console.log('IO: Client disconnected')
     io.emit('clientcount', connectionCount)
   })
 
