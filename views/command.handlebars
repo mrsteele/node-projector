@@ -1,30 +1,95 @@
 <style>
-  html, body {
-    width: 100%;
-  }
-
   #cmdForm {
     text-align: right;
     padding: 5px;
-    font-size: 2em;
+    box-sizing: border-box;
   }
 
   #cmdForm textarea {
-    height: 200px;
+    height: 150px;
     width: 100%;
     box-sizing: border-box;
     font-size: inherit;
+    margin-bottom: 10px;
   }
 
   #cmdForm button {
     font-size: inherit;
+    background: none;
+    border: solid 1px #fff;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  #cmdForm button:hover {
+    background: #fff;
+    color: #000;
+  }
+
+  body {
+    padding: 5vh 5vw;
+    box-sizing: border-box;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 20px auto;
+    box-sizing: border-box;
+  }
+
+  .col {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .col.sidebar {
+    background: rgba(255, 255, 255, 0.25);
+    padding: 10px;
+    box-sizing: border-box;
+    margin-top: 20px;
+  }
+
+  h1 {
+    font-size: 3em;
+    width: 100%;
+    border-bottom: solid 1px #fff;
+    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
+  }
+
+  h2 {
+    margin-top: 0;
+  }
+
+  @media (min-width:600px) {
+    .container {
+      display: flex;
+    }
+
+    .col.sidebar {
+      margin-left: 20px;
+      max-width: 300px;
+    }
   }
 </style>
 
-<form id="cmdForm">
-  <textarea id="cmd"></textarea><br />
-  <button>Send</button>
-</form>
+<div class="container">
+  <h1>node-projector Command Center</h1>
+</div>
+<div class="container">
+  <div class="col">
+    <form id="cmdForm">
+      <h2 style="text-align: left;">New Message</h2>
+      <textarea id="cmd"></textarea><br />
+      <button>Send</button>
+    </form>
+  </div>
+  <div class="col sidebar">
+    <h2>Tools</h2>
+    <p><strong id="connectedClients"></strong> connected clients.</p>
+    <p>Client Address: <strong>{{ipaddress}}</strong></p>
+  </div>
+</div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -35,4 +100,8 @@
     cmd.value = '';
     return false;
   };
+
+  socket.on('clientcount', function (count) {
+    connectedClients.innerHTML = count
+  });
 </script>
