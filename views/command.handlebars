@@ -42,11 +42,15 @@
     box-sizing: border-box;
   }
 
-  .col.sidebar {
+  .sidebar {
     background: rgba(255, 255, 255, 0.25);
     padding: 10px;
     box-sizing: border-box;
     margin-top: 20px;
+  }
+
+  .sidebar select {
+    width: 100%;
   }
 
   h1 {
@@ -66,7 +70,7 @@
       display: flex;
     }
 
-    .col.sidebar {
+    .sidebar {
       margin-left: 20px;
       max-width: 300px;
     }
@@ -80,23 +84,51 @@
   <div class="col">
     <form id="cmdForm">
       <h2 style="text-align: left;">New Message</h2>
-      <textarea id="cmd"></textarea><br />
+      <textarea id="cmd" placeholder="Type message here..."></textarea><br />
       <button>Send</button>
     </form>
   </div>
   <div class="col sidebar">
     <h2>Tools</h2>
-    <p><strong id="connectedClients"></strong> connected clients.</p>
-    <p>Client Address: <strong>{{ipaddress}}</strong></p>
+    <p><strong id="connectedClients"></strong> connected clients</p>
+    <p>
+      <label>Address<br />
+        <strong>{{ipaddress}}</strong>
+      </label>
+    </p>
+    <p>
+      <label>Past Commands (<span id="cmdListCount">0</span>)
+        <select id="cmdList">
+          <option value="" disabled selected>...</option>
+        </select>
+      </label>
+    </p>
   </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
   var socket = io();
+  var commands = [];
+  function syncCommands() {
+    var i = commands.length - 1;
+    var newVal = commands[i];
+    var val = (newVal.length > 25) ? newVal.substring(0, 25) + '...' : newVal;
+    cmdListCount.innerHTML = commands.length;
+    cmdList.innerHTML += '<option value="' + i +'">' + val + '</option>';
+  }
+
+  cmdList.onchange = function () {
+    cmd.value = commands[parseInt(cmdList.value)];
+  };
+
   cmdForm.onsubmit = function (e) {
     e.preventDefault();
     socket.emit('cmd', cmd.value);
+    if (commands.indexOf(cmd.value) === -1) {
+      commands.push(cmd.value);
+      syncCommands();
+    }
     cmd.value = '';
     return false;
   };
