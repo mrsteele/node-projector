@@ -1,21 +1,34 @@
 # projector.io
 
-A way to use node to project on the fly notes to a client.
+A simple way to use node and expressjs to project on the fly any text to a client.
 
 ### Installation
 
-Simply use `npm i` to install your dependencies.
+Simply use `npm i projector.io --save` to install your dependencies.
 
 ### Setup
 
-Currently there is no setup, but eventually we will add env variable support.
+Setup is done easily. We hook into express to project on specified routes.
 
-### Running
+```js
+const app = require('express')()
+const server = require('http').Server(app)
+const nodeProjector = require('projector.io')
 
-To run, type `npm run start` and navigate to the following to access the systems:
+// defaults listed below
+nodeProjector(server, app, {
+  rootPath: '/', // the root bath to show the projection screen
+  cmdPath: '/cmd' // the command path
+  // authUsername: null, (optional) The basic auth username to secure the cmd route
+  // authPassword: null (optional) The basic auth password to secure the cmd route
+})
 
-* **http://localhost:3000/** - The client.
-* **http://localhost:3000/cmd** - The command client.
+server.listen(3000, () => {
+  console.log(`node-projector on port: 3000`)
+  console.log(`To access the command module, go to localhost:3000/cmd`)
+})
+
+```
 
 ### License
 
