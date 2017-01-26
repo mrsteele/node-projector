@@ -1,4 +1,4 @@
-# node-projector
+# projector.io
 
 A way to use node to project on the fly notes to a client.
 

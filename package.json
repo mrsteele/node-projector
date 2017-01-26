@@ -1,40 +1,42 @@
 {
-  "name": "node-projector",
-  "version": "0.0.0",
+  "name": "projector.io",
+  "version": "0.0.0-development",
   "description": "Projecting with a node app",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "standard",
     "start:prod": "node src/index",
-    "start": "nodemon src/index"
+    "start": "nodemon src/index",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mrsteele/node-projector.git"
+    "url": "https://github.com/mrsteele/projector.io.git"
   },
   "keywords": [
     "node",
     "project",
     "projection",
-    "projector"
+    "projector",
+    "socket",
+    "socket.io"
   ],
   "author": "Matt Steele <matt@omnionline.us> (http://omnionline.us/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mrsteele/node-projector/issues"
+    "url": "https://github.com/mrsteele/projector.io/issues"
   },
-  "homepage": "https://github.com/mrsteele/node-projector#readme",
+  "homepage": "https://github.com/mrsteele/projector.io#readme",
   "dependencies": {
     "basic-auth-connect": "^1.0.0",
-    "dotenv": "^4.0.0",
-    "express": "^4.14.0",
-    "express-handlebars": "^3.0.0",
+    "node-handlebars": "^0.9.7",
     "socket.io": "^1.7.2",
     "winston": "^2.3.1"
   },
   "devDependencies": {
     "nodemon": "^1.11.0",
-    "standard": "^8.6.0"
+    "standard": "^8.6.0",
+    "semantic-release": "^6.3.2"
   }
 }
