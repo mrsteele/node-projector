@@ -2,7 +2,7 @@
   "name": "projector.io",
   "version": "0.0.0-development",
   "description": "Projecting with a node app",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "standard",
