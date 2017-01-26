@@ -1,8 +1,21 @@
-var app = require('express')()
-var server = require('http').Server(app)
-var exphbs = require('express-handlebars')
-var io = require('socket.io')(server)
-var addresses = require('os').networkInterfaces()
+'use strict'
+
+require('dotenv').config({silent: true})
+
+const app = require('express')()
+const basicAuth = require('basic-auth-connect')
+const server = require('http').Server(app)
+const exphbs = require('express-handlebars')
+const io = require('socket.io')(server)
+const addresses = require('os').networkInterfaces()
+const winston = require('winston')
+const Logger = new winston.Logger({
+  transports: [
+    new winston.transports.Console({
+      colorize: true
+    })
+  ]
+})
 const port = 3000
 
 let address = ''
@@ -17,11 +30,11 @@ Object.keys(addresses).forEach(function (ifname) {
 
     if (alias >= 1) {
       // this single interface has multiple ipv4 addresses
-      console.log(ifname + ':' + alias, iface.address)
+      Logger.warn('Additional address detected: ' + ifname + ':' + alias, iface.address)
     } else {
       // this interface has only one ipv4 adress
-      console.log(ifname, iface.address)
       address = iface.address
+      Logger.info(`Single address detected: ${address}`)
     }
     ++alias
   })
@@ -33,20 +46,25 @@ app.engine('handlebars', exphbs({
 }))
 app.set('view engine', 'handlebars')
 
+if (process.env.AUTH_USERNAME && process.env.AUTH_PASSWORD) {
+  Logger.warn('Authentication created')
+  app.use('/cmd', basicAuth(process.env.AUTH_USERNAME, process.env.AUTH_PASSWORD))
+}
+
 // sockets
 let lastMessage
 let connectionCount = 0
 io.on('connection', (socket) => {
-  console.log(`IO: Client connected`)
+  Logger.info(`IO: Client connected`)
   socket.on('cmd', (msg) => {
-    console.log(`IO: ${msg}`)
+    Logger.info(`IO: ${msg}`)
     lastMessage = msg
     io.emit('cmd', msg)
   })
 
   socket.on('disconnect', () => {
     connectionCount--
-    console.log('IO: Client disconnected')
+    Logger.info('IO: Client disconnected')
     io.emit('clientcount', connectionCount)
   })
 
@@ -78,5 +96,6 @@ app.use((req, res) => {
 
 // listen
 server.listen(port, () => {
-  console.log('Example app listening on port 3000!')
+  Logger.info(`node-projector on port: ${port}`)
+  Logger.info(`To access the command module, go to ${address}:${port}/cmd`)
 })
