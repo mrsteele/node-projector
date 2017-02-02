@@ -89,6 +89,7 @@
     <form id="cmdForm">
       <h2 style="text-align: left;">New Message</h2>
       <textarea id="cmd" placeholder="Type message here..."></textarea><br />
+      <button onclick="clearScreen">Clear Screen</button>
       <button>Send</button>
     </form>
   </div>
@@ -117,6 +118,10 @@
     var val = (newVal.length > 25) ? newVal.substring(0, 25) + '...' : newVal;
     cmdListCount.innerHTML = commands.length;
     cmdList.innerHTML += '<option value="' + i +'">' + val + '</option>';
+  }
+
+  function clearScreen() {
+    socket.emit('cmd', '');
   }
 
   cmdList.onchange = function () {
