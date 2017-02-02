@@ -112,10 +112,12 @@
 <script>
   var socket = io();
   var commands = [];
+
   function syncCommands() {
     var i = commands.length - 1;
     var newVal = commands[i];
-    var val = (newVal.length > 25) ? newVal.substring(0, 25) + '...' : newVal;
+    var cleanVal = newVal.replace(/(<([^>]+)>)/ig,"");
+    var val = (cleanVal.length > 25) ? cleanVal.substring(0, 25) + '...' : cleanVal;
     cmdListCount.innerHTML = commands.length;
     cmdList.innerHTML += '<option value="' + i +'">' + val + '</option>';
   }
@@ -130,12 +132,16 @@
 
   cmdForm.onsubmit = function (e) {
     e.preventDefault();
-    socket.emit('cmd', cmd.value);
-    if (commands.indexOf(cmd.value) === -1) {
-      commands.push(cmd.value);
-      syncCommands();
+    if (cmd.value.length) {
+      socket.emit('cmd', cmd.value);
+      if (commands.indexOf(cmd.value) === -1) {
+        commands.push(cmd.value);
+        syncCommands();
+      }
+      cmd.value = '';
+    } else {
+      clearScreen();
     }
-    cmd.value = '';
     return false;
   };
 
