@@ -89,16 +89,14 @@
     <form id="cmdForm">
       <h2 style="text-align: left;">New Message</h2>
       <textarea id="cmd" placeholder="Type message here..."></textarea><br />
+      <button onclick="clearScreen">Clear Screen</button>
       <button>Send</button>
     </form>
   </div>
   <div class="col sidebar">
     <h2>Tools</h2>
-    <p><strong id="connectedClients"></strong> connected clients</p>
     <p>
-      <label>Address<br />
-        <strong>{{ipaddress}}</strong>
-      </label>
+      <strong id="connectedClients"></strong> connected clients
     </p>
     <p>
       <label>Past Commands (<span id="cmdListCount">0</span>)
@@ -114,12 +112,18 @@
 <script>
   var socket = io();
   var commands = [];
+
   function syncCommands() {
     var i = commands.length - 1;
     var newVal = commands[i];
-    var val = (newVal.length > 25) ? newVal.substring(0, 25) + '...' : newVal;
+    var cleanVal = newVal.replace(/(<([^>]+)>)/ig,"");
+    var val = (cleanVal.length > 25) ? cleanVal.substring(0, 25) + '...' : cleanVal;
     cmdListCount.innerHTML = commands.length;
     cmdList.innerHTML += '<option value="' + i +'">' + val + '</option>';
+  }
+
+  function clearScreen() {
+    socket.emit('cmd', '');
   }
 
   cmdList.onchange = function () {
@@ -128,12 +132,16 @@
 
   cmdForm.onsubmit = function (e) {
     e.preventDefault();
-    socket.emit('cmd', cmd.value);
-    if (commands.indexOf(cmd.value) === -1) {
-      commands.push(cmd.value);
-      syncCommands();
+    if (cmd.value.length) {
+      socket.emit('cmd', cmd.value);
+      if (commands.indexOf(cmd.value) === -1) {
+        commands.push(cmd.value);
+        syncCommands();
+      }
+      cmd.value = '';
+    } else {
+      clearScreen();
     }
-    cmd.value = '';
     return false;
   };
 

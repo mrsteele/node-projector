@@ -6,14 +6,18 @@
   "scripts": {
     "test": "mocha",
     "lint": "standard",
-    "start:prod": "node src/index",
-    "start": "nodemon src/index",
+    "start:prod": "node server",
+    "start": "nodemon server",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/mrsteele/projector.io.git"
   },
+  "files": [
+    "src",
+    "index.js"
+  ],
   "keywords": [
     "node",
     "project",
